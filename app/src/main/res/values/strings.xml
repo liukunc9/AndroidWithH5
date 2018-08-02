@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AndroidWithH5</string>
+    <string name="Login">登录</string>
+    <string name="register">注册</string>
+    <string name="user">用户名：</string>
+    <string name="password">密&#8195;码：</string>
+</resources>
