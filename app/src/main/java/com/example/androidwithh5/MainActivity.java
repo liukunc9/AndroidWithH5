@@ -39,5 +39,8 @@ public class MainActivity extends Activity {
 
         //打开js接口，参数1为本地类名，参数2为别名；h5通过 window.别名.类名里的方法名 来调用android里的接口
         webView.addJavascriptInterface(new JsInterface(MainActivity.this),"Android");
+
+        //允许调试设置
+        webView.setWebContentsDebuggingEnabled(true);
     }
 }
