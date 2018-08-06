@@ -68,5 +68,8 @@ public class MainActivity extends Activity {
 
         //允许调试设置
         webView.setWebContentsDebuggingEnabled(true);
+
+        //android中调用js方法
+        //webView.loadUrl("javascript:javacalljs('"+参数名+'")");
     }
 }
