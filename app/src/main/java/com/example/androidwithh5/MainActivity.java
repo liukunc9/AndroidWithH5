@@ -1,9 +1,12 @@
 package com.example.androidwithh5;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class MainActivity extends Activity {
     private WebView webView;
@@ -36,6 +39,29 @@ public class MainActivity extends Activity {
 
         //加载html页面
         webView.loadUrl("file:///android_asset/index.html");
+
+        //拦截网页中的超链接，让webView自己处理各种通知、请求等事件
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url == null) return false;
+                //webview只能识别http, https这样的协议
+                try{
+                    if(url.startsWith("http://")||url.startsWith("https://")){
+                        //处理http和https开头的url
+                        view.loadUrl(url);
+                        return false;
+                    }else{
+                        //处理不以http或https为开头的url请求
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    }
+                }catch (Exception e) { //防止crash (如果手机上没有安装处理某个scheme开头的url的APP, 会导致crash)
+                    return true;//没有安装该app时，返回true，表示拦截自定义链接，但不跳转，避免弹出上面的错误页面
+                }
+            }
+        });
 
         //打开js接口，参数1为本地类名，参数2为别名；h5通过 window.别名.类名里的方法名 来调用android里的接口
         webView.addJavascriptInterface(new JsInterface(MainActivity.this),"Android");
